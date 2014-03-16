@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# This script calls the author's LDA.R and sLDA.R 
+# scripts wih no ability to change parameters at
+# this time.
+
+set -e
+
+
+function figure_3() {
+    Rscript LDA.R
+    if [ -f Rplots.pdf ]; then
+        mv Rplots.pdf compendiaoutput/figure_3.pdf
+    fi
+}
+
+function figure_4() {
+    Rscript sLDA.R
+    if [ -f Rplots.pdf ]; then
+        mv Rplots.pdf compendiaoutput/figure_4.pdf
+    fi
+}
+
+mkdir -p compendiaoutput
+
+# default figure 3
+if [ -z "$1" ]; then
+    figure_3
+else
+    case "$1" in
+        all) figure_3; figure_4;;
+        4) figure_4;;
+        *) figure_3;;
+    esac
+fi
